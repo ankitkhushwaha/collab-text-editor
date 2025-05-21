@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collaborative Editor</title>
+</head>
+<body>
+    <textarea id="editor" rows="20" cols="80"></textarea>
+    <script>
+        const editor = document.getElementById('editor');
+        const ws = new WebSocket('ws://localhost:8080/ws');
+
+        // Receive updates from server
+        ws.onmessage = (event) => {
+            editor.value = event.data;
+        };
+
+        // Send local changes to server
+        editor.addEventListener('input', (e) => {
+            ws.send(e.target.value);
+        });
+    </script>
+</body>
+</html>
+
